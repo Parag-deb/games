@@ -1,0 +1,36 @@
+body{
+    text-align: center;
+    background-image: url(photos/background.jpg);
+    /* background-image: url(photos/bg.png); */
+    background-size: cover;
+}
+#score{
+    color: red;
+}
+#board-area{
+    width : 540px;
+    height: 540px;
+    background-image: url(photos/board-background.png);
+     margin : 0 auto;       /* board area will be in the center position */
+    display: flex;
+    flex-wrap: wrap;
+    background-size: cover;
+    border: 5px solid white;
+    border-radius: 20px;
+}
+#board-area div{
+    width: 180px;
+    height: 180px;
+    background-image: url(photos/pipe.png);
+    background-size: cover;
+}
+#board-area div img{
+    width: 100px;
+    height: 100px;
+    
+    /*now users can't select or drag the images on the screen*/
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
