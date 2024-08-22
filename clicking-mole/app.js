@@ -13,7 +13,6 @@ function setGame(){
         moleDiv.addEventListener("click" , clickDiv);
         document.getElementById("board-area").appendChild(moleDiv);
     }
-
     setInterval(setMole , 1000); //we are calling the sotMole function in every 1 second
     setInterval(setPlant , 1500); //we are calling the sotPlant function in every 1.5 second
 }
@@ -34,6 +33,7 @@ function setMole(){
     }
     let mole = document.createElement("img");
     mole.src ="photos/mole.png";
+    // mole.src ="photos/tanvir.jpeg";
 
     let num = getRandomDiv();
     if(currPlantDiv && currPlantDiv.id == num){
@@ -53,6 +53,8 @@ function setPlant(){
     }
     let plant = document.createElement("img");
     plant.src ="photos/plant.png";
+    
+
 
     let num =  getRandomDiv();
     if(currMoleDiv && currMoleDiv.id == num){

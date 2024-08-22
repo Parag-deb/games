@@ -1,0 +1,7 @@
+body{
+    text-align: center;
+
+}
+#board-area{
+    background-image: url(photos/flappybirdbg.png);
+}

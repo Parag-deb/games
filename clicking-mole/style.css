@@ -4,6 +4,9 @@ body{
     /* background-image: url(photos/bg.png); */
     background-size: cover;
 }
+.board{
+    cursor: pointer;
+}
 #score{
     color: red;
 }
