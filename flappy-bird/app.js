@@ -22,6 +22,11 @@ let velocityX = -2 ; //for moving left of the pipes
 let velocityY = 0 ; //for bird jump
 let gravity = 0.4;
 
+
+let gameOver = false;
+
+let score = 0;
+
 let bird ={
     x : birdX,
     y : birdY,
@@ -55,6 +60,9 @@ window.onload = function(){
 
 function update(){
     requestAnimationFrame(update);
+    if (gameOver){
+        return;
+    }
     context.clearRect(0,0, boardArea.width , boardArea.height); // to reset the frame again in loop
 
     //bird
@@ -63,15 +71,45 @@ function update(){
     bird.y = Math.max(bird.y +velocityY , 0);
     context.drawImage(birdImg , bird.x , bird.y , bird.width , bird.height); // to reset the bird image
 
+    if(bird.y > boardArea.height){
+        gameOver = true;
+    }
+
     //pipes
     for(let i = 0 ; i<pipeArray.length ; i++){
         let pipe = pipeArray[i];
         pipe.x += velocityX;
         context.drawImage(pipe.img , pipe.x , pipe.y , pipe.width , pipe.height);
+
+        if(!pipe.passed && bird.x > pipe.x +pipe.width){
+            score += 0.5;
+            pipe.passed = true;
+        }
+
+        if(detectCollision(bird , pipe)){
+            gameOver = true;
+        }
+    }
+    while(pipeArray.length > 0 && pipeArray[0].x < -pipeWidth){
+        pipeArray.shift();
+    }
+
+    context.fillStyle = "white";
+    context.font ="30px sans-serif";
+    context.fillText("Score : " , 5 ,45);
+    
+    context.fillStyle = "red";
+    context.fillText(score , 110 ,45);
+
+    if(gameOver){
+        context.fillText("GAME OVER" , 70 , 340);
     }
 
 }
 function placePipes() {
+    if(gameOver){
+        return;
+    }
     let randomPipeY = pipeY - pipeHeight/4 - Math.random()*(pipeHeight/2);//the y position of the pipe is reduce by 128 px then reduce by rnadomly
     let openingSpace = pipeHeight/4;
     let topPipe = {
@@ -95,9 +133,24 @@ function placePipes() {
     }
     pipeArray.push(bottomPipe);
 }
+document.getElementById("board-area").addEventListener("click" ,moveBird)
 function moveBird(e){
-    if(e.code == "Space" || e.code == "ArrowUP" || e.code =="KeyX"){
+    if(e.code == "Space" || e.code == "ArrowUP" || e.code =="KeyX" || e == "click"){
         //do jump
         velocityY = -6;
+
+        if(gameOver){
+            bird.y = birdY;
+            pipeArray = [];
+            score = 0 ;
+            gameOver = false;
+        }
     }
+}
+
+function detectCollision(a,b){
+    return a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height >b.y ;
 }
